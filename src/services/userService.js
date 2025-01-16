@@ -7,7 +7,6 @@ class UserService {
         this.userRepository = _userRepository
     }
     async registerUser(userDetails){
-        console.log("hitting service layer")
         //it will create a brand new user in the db
 
         //1. we need to check if the user with this email or mobile number already exists or not
