@@ -1,11 +1,7 @@
-const { model } = require('mongoose');
-const UserService = require('../services/userService');
-const UserRepository = require('../repository/userRepository');
-
+const { registerUser } = require('../services/userService');
 async function createUser(req,res){
-    const userService = new UserService(new UserRepository());
     try {
-        const response = await userService.registerUser(req.body)
+        const response = await registerUser(req.body)
 
         return res.status(201).json({
             message : 'Successfully registered the user',

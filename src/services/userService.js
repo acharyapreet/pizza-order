@@ -1,16 +1,10 @@
-const User = require("../schema/userSchema");
+    const {findUser,createUser} = require('../repository/userRepository')
 
-class UserService {
-
-    constructor(_userRepository){
-        // in the argument we will expect userRepository object
-        this.userRepository = _userRepository
-    }
-    async registerUser(userDetails){
+    async function registerUser(userDetails){
         //it will create a brand new user in the db
 
         //1. we need to check if the user with this email or mobile number already exists or not
-        const user = await this.userRepository.findUser({
+        const user = await findUser({
             email : userDetails.email,
             mobileNumber : userDetails.mobileNumber
         });
@@ -22,13 +16,13 @@ class UserService {
             }
         }
         //2. if not then create the user in the database
-        const newUser = await this.userRepository.createUser({
+        const newUser = await createUser({
             email : userDetails.email,
             password : userDetails.password,
             firstName : userDetails.firstName,
             LastName : userDetails.LastName,
             mobileNumber : userDetails.mobileNumber
-        })
+        });
 
         if(!newUser){
             throw{ reason: "Something went wrong, cannot create user", statusCode: 500}
@@ -36,6 +30,8 @@ class UserService {
         //3. return the details of created user
         return newUser;
     }
-}
 
-module.exports = UserService;
+
+module.exports = {
+    registerUser
+};
