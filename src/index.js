@@ -11,6 +11,7 @@ const { isLoggedIn } = require('./validation/authVaditator');
 const uploader = require('./middlewares/multerMiddleware');
 const cloudinary = require('./config/cloudinaryConfig');
 const fs = require('fs/promises');
+const productRouter = require('./route/productRoute');
 
 const app = express();
 
@@ -19,11 +20,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.text());
 app.use(bodyParser.urlencoded());
 
+
 //Routing middleware
 // if your req route starts with /user then hendle it using userRouter
 app.use('/users' , userRouter); //connects the router to the server
 app.use('/carts',cartRouter);
-app.use('/auth' ,authRouter)
+app.use('/auth' ,authRouter);
+app.use('/products',productRouter);
+// app.use('/product2',productRoute);
+
 
 app.post('/ping',isLoggedIn,(req, res) => {
     console.log(req.body);
@@ -31,14 +36,14 @@ app.post('/ping',isLoggedIn,(req, res) => {
     return res.json({message : "pong"});
 });
 
-app.post('/photo',uploader.single('incomingFile'),async(req, res) =>{
-    console.log(req.file);
-    const result = await cloudinary.uploader.upload(req.file.path);
-    console.log(result);
-    await fs.unlink(req.file.path);
+// app.post('/photo',uploader.single('incomingFile'),async(req, res) =>{
+//     console.log(req.file);
+//     const result = await cloudinary.uploader.upload(req.file.path);
+//     console.log(result);
+//     await fs.unlink(req.file.path);
     
-    return res.json({message : 'ok'});
-})
+//     return res.json({message : 'ok'});
+// });
 
 app.listen(ServerConfig.PORT, async () => {
     await connectDB();
@@ -56,3 +61,4 @@ app.listen(ServerConfig.PORT, async () => {
 });
 // localhost:5500//users-POST
 // localhost:5500//carts/56-GET
+console.log('ok till index 3')
