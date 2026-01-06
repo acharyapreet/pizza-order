@@ -1,6 +1,6 @@
 const {createProduct} = require('../services/productService')
 const Product = require('../schema/productSchema');
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/appError');
 const { getProductById ,deleteProductById } = require('../services/productService');
 async function addProduct(req, res) {
 try {
